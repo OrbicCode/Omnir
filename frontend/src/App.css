@@ -1,3 +1,15 @@
 .border-right {
   border-right: 5px solid black;
 }
+
+.filter-button {
+  padding: 1em 2.25em;
+  border: 1px solid black;
+  border-radius: 25px;
+  transition: all 0.4s ease;
+}
+
+.filter-button:hover {
+  border-color: #66a253;
+  color: #66a253;
+}

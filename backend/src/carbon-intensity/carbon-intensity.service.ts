@@ -43,8 +43,10 @@ export class CarbonIntensityService {
   async getLiveGenMixByPostcode(postcode: string) {
     try {
       const response = await fetch(`https://api.carbonintensity.org.uk/regional/postcode/${postcode}`)
-      const genMixResponsedata = await response.json()
-      const generationMix = genMixResponsedata.data[0].data[0]
+      const responsedata = await response.json()
+      const intensity = responsedata.data[0].data[0].intensity
+      console.log(intensity)
+      const generationMix = responsedata.data[0].data[0]
 
       const labels = generationMix?.generationmix.map((type: any) => {
         return type.fuel
@@ -54,7 +56,7 @@ export class CarbonIntensityService {
         return type.perc
       })
 
-      const data = {
+      const pieChartData = {
         labels,
         datasets: [
           {
@@ -65,9 +67,12 @@ export class CarbonIntensityService {
         ]
       }
 
-      console.log(data)
+      const intensityData = intensity
 
-      return data
+      return { 
+        pieChartData, 
+        intensityData
+      }
     } catch (error) {
       console.error(error)
     }

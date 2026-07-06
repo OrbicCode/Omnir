@@ -3,7 +3,7 @@
 }
 
 body {
-  height: 100vh;
+  height: calc(100vh-125px);
   margin: 0;
   background-color: #dad7cd;
   font-family: "Montserrat Alternates", sans-serif;
@@ -27,8 +27,8 @@ button {
 
 main {
   margin: 125px auto 0;
+  padding-left: 200px;
   width: 90%;
-
 }
 
 /* #####################

@@ -3,6 +3,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import CardSmall from "../cards/CardSmall/CardSmall";
 import styles from './ChartSection.module.css'
+import useStore from '@stores/useStore'
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -12,7 +13,8 @@ export default function ChartSection() {
   const [ lgmPieChartData, setLgmPieChartData ] = useState<any>(null)
   const [ factorPieChartData, setFactorPieChartData ] = useState<any>(null)
   const [ genMixPostcodeData, setGenMixPostcodeData ] = useState<any>(null)
-  const [ postcode, setPostcode ] = useState<string>('')
+
+  const { postcode, setIntensityPostcodeData }: any = useStore()
 
   useEffect(() => {
     async function fetchPieChartData() {
@@ -45,18 +47,20 @@ export default function ChartSection() {
     fetchPieChartData()
   }, [])
 
-  // useEffect(() => {
-  //   async function fetchPieChartData() {
-  //     try {
-  //       const response = await fetch(`${backendBaseUrl}/carbon-intensity/live-gen-mix/postcode/${postcode}`)
-  //       const data = await response.json()
-  //       setGenMixPostcodeData(data)
-  //     } catch (error) {
-  //       console.error(error)
-  //     }
-  //   }
-  //   fetchPieChartData()
-  // }, [])
+  useEffect(() => {
+    async function fetchPieChartData() {
+          try {
+            const response = await fetch(`${backendBaseUrl}/carbon-intensity/live-gen-mix/postcode/${postcode}`)
+            const data = await response.json()
+            console.log('data', data)
+            setGenMixPostcodeData(data.pieChartData)
+            setIntensityPostcodeData(data.intensityData)
+          } catch (error) {
+            console.error(error)
+          }
+        }
+        fetchPieChartData()
+  }, [postcode])
 
   const options = {
     responsive: true,
@@ -67,39 +71,15 @@ export default function ChartSection() {
     },
   };
 
-  async function handlePostcodeSubmit(e: any) {
-    e.preventDefault()
-
-    console.log('postcode: ', postcode)
-
-    try {
-      const response = await fetch(`${backendBaseUrl}/carbon-intensity/live-gen-mix/postcode/${postcode}`)
-      const data = await response.json()
-      console.log('data', data)
-      setGenMixPostcodeData(data)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
   return (
     <section className={styles.section}>
-      <CardSmall title={'Live Generation Mix'}>
-        {lgmPieChartData && <Pie data={lgmPieChartData} />}
+      <CardSmall title={`Live Generation Mix ${postcode ? `(${postcode.toUpperCase()})` : '(UK)'}`}>
+        {lgmPieChartData && <Pie data={genMixPostcodeData ? genMixPostcodeData : lgmPieChartData} />}
       </CardSmall>
 
-      <CardSmall title={'Carbon Intensity Factors'}>
+      <CardSmall title={'Carbon Intensity Factors (UK)'}>
         {factorPieChartData && <Pie data={factorPieChartData} options={options} />}
       </CardSmall>
-
-      <CardSmall title={'Live Generation Mix By Postcode'}>
-        <form onSubmit={handlePostcodeSubmit}>
-          <input type='text' onChange={(e) => setPostcode(e.target.value)} value={postcode} />
-          <button type='submit'>Search</button>
-        </form>
-        {genMixPostcodeData && postcode && <Pie data={genMixPostcodeData} options={options} />}
-      </CardSmall>
-
     </section>
   )
 }
