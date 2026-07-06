@@ -3,9 +3,14 @@
 }
 
 body {
+  height: 100vh;
   margin: 0;
   background-color: #dad7cd;
   font-family: "Montserrat Alternates", sans-serif;
+  background-image: url('/leaf-bg.png');
+  background-size: cover;
+  background-position: center;
+  /* background-repeat: no-repeat; */
 }
 
 img {
@@ -21,7 +26,9 @@ button {
 }
 
 main {
-  margin-top: 75px;
+  margin: 125px auto 0;
+  width: 90%;
+
 }
 
 /* #####################
@@ -29,5 +36,5 @@ main {
    ##################### */
 
 h1 {
-  font-weight: 300;
+  font-weight: 400;
 }

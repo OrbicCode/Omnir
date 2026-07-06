@@ -1,0 +1,23 @@
+.container {
+  min-width: 400px;
+  background: white;
+  padding: 1em;
+  border-radius: 25px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.header svg {
+  width: 24px;
+  height: 24px
+}
+
+.container h2 {
+  font-size: 1.25rem;
+  text-align: center;
+  margin: 0;
+}
