@@ -1,9 +1,11 @@
 import "./App.css";
+import Header from "./components/ui/Header/Header";
 
 function App() {
   return (
     <>
-      <h1>Omnir</h1>
+      <Header />
+      <main></main>
     </>
   );
 }
