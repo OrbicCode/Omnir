@@ -45,7 +45,6 @@ export class CarbonIntensityService {
       const response = await fetch(`https://api.carbonintensity.org.uk/regional/postcode/${postcode}`)
       const responsedata = await response.json()
       const intensity = responsedata.data[0].data[0].intensity
-      console.log(intensity)
       const generationMix = responsedata.data[0].data[0]
 
       const labels = generationMix?.generationmix.map((type: any) => {
@@ -127,7 +126,6 @@ export class CarbonIntensityService {
 
         ]
       }
-      console.log(lineChartData)
       return lineChartData
     } catch (error) {
       console.error(error)
