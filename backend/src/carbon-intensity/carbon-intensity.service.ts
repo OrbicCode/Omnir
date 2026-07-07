@@ -90,6 +90,50 @@ export class CarbonIntensityService {
     }
   }
 
+  async getLiveIntensityFromTo(from: string, to: string) {
+    try {
+      // const response = await fetch(`https://api.carbonintensity.org.uk/intensity/${from}/${to}`)
+      const response = await fetch('https://api.carbonintensity.org.uk/intensity/2017-09-18T12:10Z/2017-10-01T12:00Z')
+      const responseData = await response.json()
+
+      const labels = responseData.data.map((intensity: any) => {
+        return new Date(intensity.from).toLocaleTimeString()
+      })
+
+      const valuesActual = responseData.data.map((intensity: any) => {
+        return intensity.intensity.actual
+      })
+
+      const valuesFroecast = responseData.data.map((intensity: any) => {
+        return intensity.intensity.forecast
+      })
+
+      const lineChartData = {
+        labels,
+        datasets: [
+          {
+            label: 'generation mix',
+            data: valuesActual,
+            borderColor: '#7cb36b',
+            backgroundColor: '#7cb36b'
+          },
+
+          {
+            label: 'generation mix',
+            data: valuesFroecast,
+            borderColor: '#33512a',
+            backgroundColor: '#33512a'
+          },
+
+        ]
+      }
+      console.log(lineChartData)
+      return lineChartData
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   async getCarbonIntensityFactors() {
     try {
       const response = await fetch('https://api.carbonintensity.org.uk/intensity/factors')

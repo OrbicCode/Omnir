@@ -7,6 +7,11 @@ const useStore = create((set) => ({
   intensityPostcodeData: null,
   setIntensityPostcodeData: (data: any) => set({ intensityPostcodeData: data }),
 
+  datetimeFrom: null,
+  setDatetimeFrom: (date: any) => set({datetimeFrom: date}),
+
+  datetimeTo: null,
+  setDatetimeTo: (date: any) => set({datetimeTo: date})
 }))
 
 export default useStore

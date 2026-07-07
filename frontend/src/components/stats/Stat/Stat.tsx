@@ -1,10 +1,9 @@
 import styles from './Stat.module.css'
 
 export default function Stat({ title, figure, borderRight, postcode }: any) {
-  
   return (
     <div className={`${styles.container} ${borderRight ? 'border-right' : ''}`}>
-      <h3>{title} <span>{postcode ? `(${postcode})` : '(UK)'}</span></h3>
+      <h3>{title} <span>{postcode ? `(${postcode.toUpperCase()})` : '(UK)'}</span></h3>
       <p className={styles.figure}>{figure}</p>
     </div>
   )
