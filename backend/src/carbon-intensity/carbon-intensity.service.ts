@@ -91,8 +91,8 @@ export class CarbonIntensityService {
 
   async getLiveIntensityFromTo(from: string, to: string) {
     try {
-      // const response = await fetch(`https://api.carbonintensity.org.uk/intensity/${from}/${to}`)
-      const response = await fetch('https://api.carbonintensity.org.uk/intensity/2017-09-18T12:10Z/2017-10-01T12:00Z')
+      const response = await fetch(`https://api.carbonintensity.org.uk/intensity/${from}/${to}`)
+      // const response = await fetch('https://api.carbonintensity.org.uk/intensity/2017-09-18T12:10Z/2017-10-01T12:00Z')
       const responseData = await response.json()
 
       const labels = responseData.data.map((intensity: any) => {

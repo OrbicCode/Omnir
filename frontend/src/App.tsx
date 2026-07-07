@@ -1,20 +1,20 @@
-import "./App.css";
-import Header from "./components/ui/Header/Header";
-import StatsBar from "./components/stats/StatsBar/StatsBar";
-import ChartSection from "./components/ChartSection/ChartSection";
-import FilterPanel from "./components/FilterPanel/FilterPanel";
+import { BrowserRouter, Routes, Route } from "react-router";
+import "./App.css"; 
+import Layout from "./components/ui/Layout/Layout";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import Map from "./pages/Map/Map";
 
 function App() {
 
   return (
-    <>
-      <Header />
-      <main>
-        <FilterPanel />
-        <StatsBar />
-        <ChartSection />
-      </main>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/map" element={<Map />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

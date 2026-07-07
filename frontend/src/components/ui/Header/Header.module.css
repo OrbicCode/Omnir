@@ -1,5 +1,5 @@
 .header {
-  position: fixed;
+  position: absolute;
   top: 25px;
   left: 50%;
   transform: translateX(-50%);
@@ -12,9 +12,30 @@
 }
 
 .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
   background: white;
   padding-inline: 2em;
   border-radius: 50px;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.25) ;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+.nav a {
+  text-decoration: none;
+}
+
+.isActive {
+  color: #66a253;
+}
+
+.defaultLink {
+  color: #20331a
 }

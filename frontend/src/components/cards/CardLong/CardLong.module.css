@@ -1,6 +1,7 @@
 .container {
   min-width: 500px;
-  max-width: 600px;
+  max-width: 500px;
+  min-height: 350px;
   background: white;
   padding: 1em;
   border-radius: 25px;
