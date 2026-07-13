@@ -55,17 +55,23 @@ export class CarbonIntensityService implements OnModuleInit {
       const generationMixData = await response.json();
       const generationMix = generationMixData.data;
 
+      console.log('generationMix', generationMix);
+
       if (!generationMix) {
         throw new Error('GenMix error');
       }
 
-      const labels = generationMix?.generationmix.map((type: any) => {
-        return type.fuel;
-      });
+      const labels = generationMix?.generationmix
+        .map((type: any) => {
+          return type.perc > 0 ? type.fuel : null;
+        })
+        .filter((label: any) => label !== null);
 
-      const values = generationMix?.generationmix.map((type: any) => {
-        return type.perc;
-      });
+      const values = generationMix?.generationmix
+        .map((type: any) => {
+          return type.perc > 0 ? type.perc : null;
+        })
+        .filter((label: any) => label !== null);
 
       const data = {
         labels,

@@ -10,8 +10,8 @@ export default function MapSideBar() {
 
   const selectedRegion = regionData?.[selectedRegionId];
 
-  const labels = selectedRegion?.generationmix?.map((item: any) => item.fuel);
-  const values = selectedRegion?.generationmix?.map((item: any) => item.perc);
+  const labels = selectedRegion?.generationmix?.map((item: any) => (item.perc > 0 ? item.fuel : null)).filter((label: any) => label !== null);
+  const values = selectedRegion?.generationmix?.map((item: any) => (item.perc > 0 ? item.perc : null)).filter((value: any) => value !== null);
 
   const pieChartData = {
     labels,
