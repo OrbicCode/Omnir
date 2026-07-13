@@ -32,8 +32,6 @@ export default function FilterPanel() {
     }
   }, [postcodeValue]);
 
-  console.log("to: ", toDateValue, "from: ", fromDateValue);
-
   return (
     <section className={styles.container}>
       <h2>Filters</h2>

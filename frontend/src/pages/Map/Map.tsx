@@ -10,7 +10,7 @@ export default function Map() {
   const mapRef = useRef<maplibregl.Map | null>(null);
   const palette = ["#dbead7", "#c3dcbc", "#abcea1", "#94c186", "#7cb36b", "#66a253", "#558745", "#446c37", "#33512a", "#20331a"];
 
-  const { setMapGenMixData }: any = useStore();
+  const { setRegionData, setSelectedRegionId }: any = useStore();
 
   useEffect(() => {
     if (!mapContainerRef.current) return;
@@ -28,12 +28,7 @@ export default function Map() {
       const response = await fetch("http://localhost:3000/carbon-intensity/live-intensity/regions");
       const data = await response.json();
       const geojson = data.geojson;
-      setMapGenMixData(data.genMix);
-
-      console.log("geojson", geojson.maxValue);
-
-      const featuresLength = geojson.features.length;
-      console.log(palette.length % featuresLength);
+      setRegionData(data.regions);
 
       map.addSource("boundaries", {
         type: "geojson",
@@ -69,7 +64,8 @@ export default function Map() {
       const feature = e.features?.[0];
       if (feature) {
         const forecast = feature.properties?.forecast;
-
+        const regionId = feature.properties?.ID;
+        setSelectedRegionId(regionId);
         popup.setLngLat(e.lngLat).setHTML(`<strong>Forecast:</strong> ${forecast}`).addTo(map);
       }
     });

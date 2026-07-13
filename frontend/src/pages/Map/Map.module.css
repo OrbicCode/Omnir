@@ -1,5 +1,6 @@
 .mapContainer {
-  height: 100%;
-  width: 100%;
+  height: 90%;
+  width: 80%;
   border-radius: 15px;
+  margin: 0 auto;
 }

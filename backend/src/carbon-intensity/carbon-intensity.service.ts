@@ -42,6 +42,9 @@ export class CarbonIntensityService implements OnModuleInit {
     );
     const raw = fs.readFileSync(geoJsonPath, 'utf-8');
     this.geojsonCache = JSON.parse(raw);
+    for (const feature of this.geojsonCache?.features) {
+      feature.properties.ID = this.regionIdMap[feature.properties.ID];
+    }
   }
 
   async getLiveGenerationMix() {
@@ -228,11 +231,6 @@ export class CarbonIntensityService implements OnModuleInit {
       );
       const responseData = await response.json();
       const regions: any[] = responseData.data[0]?.regions;
-      const intensityData = regions.map((region) => region.intensity);
-      const genMix: any[] = [];
-      for (const region of regions) {
-        genMix.push(region?.generationmix);
-      }
 
       const geojson = JSON.parse(JSON.stringify(this.geojsonCache));
 
@@ -242,12 +240,10 @@ export class CarbonIntensityService implements OnModuleInit {
           this.palette[index % this.palette.length];
       });
 
-      const lookup: Record<number, any> = {};
-      for (const r of regions) lookup[r.regionid] = r;
-
       for (const feature of geojson?.features) {
-        const apiId = this.regionIdMap[feature.properties.ID];
-        const match = apiId && lookup[apiId];
+        const match = regions.find(
+          (region) => region.regionid === feature.properties.ID,
+        );
 
         if (match) {
           feature.properties['forecast'] = match.intensity.forecast;
@@ -259,10 +255,14 @@ export class CarbonIntensityService implements OnModuleInit {
         ...geojson.features.map((feature: any) => feature.properties.forecast),
       );
 
+      const regionsObject = {};
+      for (const region of regions) {
+        regionsObject[region.regionid] = region;
+      }
+
       return {
         geojson,
-        intensityData,
-        genMix,
+        regions: regionsObject,
       };
     } catch (error) {
       console.error(error);
