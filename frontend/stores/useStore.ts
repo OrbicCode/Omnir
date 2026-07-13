@@ -1,4 +1,4 @@
-import { create } from 'zustand'
+import { create } from "zustand";
 
 const useStore = create((set) => ({
   postcode: null,
@@ -8,10 +8,13 @@ const useStore = create((set) => ({
   setIntensityPostcodeData: (data: any) => set({ intensityPostcodeData: data }),
 
   datetimeFrom: null,
-  setDatetimeFrom: (date: any) => set({datetimeFrom: date}),
+  setDatetimeFrom: (date: any) => set({ datetimeFrom: date }),
 
   datetimeTo: null,
-  setDatetimeTo: (date: any) => set({datetimeTo: date})
-}))
+  setDatetimeTo: (date: any) => set({ datetimeTo: date }),
 
-export default useStore
+  mapGenMixData: null,
+  setMapGenMixData: (data: any) => set({ mapGenMixData: data }),
+}));
+
+export default useStore;

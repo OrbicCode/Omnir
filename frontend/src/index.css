@@ -3,14 +3,18 @@
 }
 
 body {
-  height: calc(100vh-125px);
+  height: calc(100vh - 125px);
   margin: 0;
   background-color: #dad7cd;
   font-family: "Montserrat Alternates", sans-serif;
   background-image: url('/leaf-bg.png');
   background-size: cover;
   background-position: center;
-  /* background-repeat: no-repeat; */
+  background-repeat: no-repeat;
+}
+
+#root {
+  height: 100%;
 }
 
 img {
@@ -28,6 +32,7 @@ button {
 main {
   margin: 125px auto 0;
   padding-left: 200px;
+  height: 100%;
   width: 90%;
 }
 

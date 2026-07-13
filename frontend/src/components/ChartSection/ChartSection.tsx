@@ -1,104 +1,101 @@
-import { useState, useEffect } from 'react'
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title } from 'chart.js';
-import { Pie } from 'react-chartjs-2';
-import { Line } from 'react-chartjs-2';
+import { useState, useEffect } from "react";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title } from "chart.js";
+import { Pie } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import CardSmall from "../cards/CardSmall/CardSmall";
-import styles from './ChartSection.module.css'
-import useStore from '@stores/useStore'
-import CardLong from '../cards/CardLong/CardLong';
+import styles from "./ChartSection.module.css";
+import useStore from "@stores/useStore";
+import CardLong from "../cards/CardLong/CardLong";
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title);
 
 export default function ChartSection() {
+  const backendBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
+  const [lgmPieChartData, setLgmPieChartData] = useState<any>(null);
+  const [factorPieChartData, setFactorPieChartData] = useState<any>(null);
+  const [genMixPostcodeData, setGenMixPostcodeData] = useState<any>(null);
+  const [datedIntensityLineData, setDatedIntensityLineData] = useState<any>(null);
+  const [datesfromApi, setDatesfromApi] = useState<any>({ from: null, to: null });
 
-  const backendBaseUrl = import.meta.env.VITE_BACKEND_BASE_URL
-  const [ lgmPieChartData, setLgmPieChartData ] = useState<any>(null)
-  const [ factorPieChartData, setFactorPieChartData ] = useState<any>(null)
-  const [ genMixPostcodeData, setGenMixPostcodeData ] = useState<any>(null)
-  const [ datedIntensityLineData, setDatedIntensityLineData ] = useState<any>(null)
-
-  const { postcode, setIntensityPostcodeData, datetimeFrom, datetimeTo }: any = useStore()
+  const { postcode, setIntensityPostcodeData, datetimeFrom, datetimeTo }: any = useStore();
 
   useEffect(() => {
     async function fetchPieChartData() {
       try {
-        const response = await fetch(`${backendBaseUrl}/carbon-intensity/live-gen-mix`)
+        const response = await fetch(`${backendBaseUrl}/carbon-intensity/live-gen-mix`);
         if (!response.ok) {
-          throw new Error('NO RESPONSE')
+          throw new Error("NO RESPONSE");
         }
 
-        const data = await response.json()
-        setLgmPieChartData(data)
-        return data
+        const data = await response.json();
+        setLgmPieChartData(data);
+        return data;
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
     }
-    fetchPieChartData()
-  }, [])
+    fetchPieChartData();
+  }, []);
 
   useEffect(() => {
     async function fetchPieChartData() {
       try {
-        const response = await fetch(`${backendBaseUrl}/carbon-intensity/intensity-factors`)
-        const data = await response.json()
-        setFactorPieChartData(data)
+        const response = await fetch(`${backendBaseUrl}/carbon-intensity/intensity-factors`);
+        const data = await response.json();
+        setFactorPieChartData(data);
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
     }
-    fetchPieChartData()
-  }, [])
+    fetchPieChartData();
+  }, []);
 
   useEffect(() => {
     async function fetchPieChartData() {
       try {
-        const response = await fetch(`${backendBaseUrl}/carbon-intensity/live-gen-mix/postcode/${postcode}`)
-        const data = await response.json()
-        setGenMixPostcodeData(data.pieChartData)
-        setIntensityPostcodeData(data.intensityData)
+        const response = await fetch(`${backendBaseUrl}/carbon-intensity/live-gen-mix/postcode/${postcode}`);
+        const data = await response.json();
+        setGenMixPostcodeData(data.pieChartData);
+        setIntensityPostcodeData(data.intensityData);
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
     }
-    fetchPieChartData()
-  }, [postcode])
+    fetchPieChartData();
+  }, [postcode]);
 
   useEffect(() => {
     async function fetchLineChartData() {
       try {
-        const response = await fetch(`${backendBaseUrl}/carbon-intensity/live-intensity/from-to/${datetimeFrom}/${datetimeTo}`)
-        const data = await response.json()
-        setDatedIntensityLineData(data)
+        const response = await fetch(`${backendBaseUrl}/carbon-intensity/live-intensity/from-to/${datetimeFrom}/${datetimeTo}`);
+        const data = await response.json();
+        setDatedIntensityLineData(data.lineChartData);
+        setDatesfromApi({ from: data.dates.from, to: data.dates.to });
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
     }
-    fetchLineChartData()
-  },[datetimeFrom, datetimeTo])
+    fetchLineChartData();
+  }, [datetimeFrom, datetimeTo]);
 
   const options = {
     responsive: true,
     plugins: {
       legend: {
-        position: 'right' as const,
+        position: "right" as const,
       },
     },
   };
 
   return (
     <section className={styles.section}>
-      <CardSmall title={`Live Generation Mix ${postcode ? `(${postcode.toUpperCase()})` : '(UK)'}`} postcode={postcode}>
+      <CardSmall title={`Live Generation Mix ${postcode ? `(${postcode.toUpperCase()})` : "(UK)"}`} postcode={postcode}>
         {lgmPieChartData && <Pie data={genMixPostcodeData ? genMixPostcodeData : lgmPieChartData} />}
       </CardSmall>
 
-      <CardSmall title={'Carbon Intensity Factors (UK)'}>
-        {factorPieChartData && <Pie data={factorPieChartData} options={options} />}
-      </CardSmall>
+      <CardSmall title={"Carbon Intensity Factors (UK)"}>{factorPieChartData && <Pie data={factorPieChartData} options={options} />}</CardSmall>
 
-      <CardLong title={`Carbon Intensity from ${datetimeFrom ? `(${new Date(datetimeFrom).toLocaleString()})` : ''} to ${datetimeTo ? `(${new Date(datetimeTo).toLocaleString()})` : ''} (UK)`}>
-        {datedIntensityLineData && <Line data={datedIntensityLineData} />}
-      </CardLong>
+      <CardLong title={`Carbon Intensity from ${datesfromApi.from ? `(${new Date(datesfromApi.from).toLocaleString()})` : ""} to ${datesfromApi.to ? `(${new Date(datesfromApi.to).toLocaleString()})` : ""} (UK)`}>{datedIntensityLineData && <Line data={datedIntensityLineData} />}</CardLong>
     </section>
-  )
+  );
 }

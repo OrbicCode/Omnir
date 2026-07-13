@@ -27,6 +27,11 @@ export class CarbonIntensityController {
     return this.carbonIntensityService.getLiveIntensityFromTo(from, to)
   }
 
+  @Get('live-intensity/regions')
+  async getliveIntensityRegions() {
+    return this.carbonIntensityService.getliveIntensityRegional()
+  }
+
   @Get('live-gen-mix/postcode/:postcode')
   async getLiveGenMixByPostcode(@Param('postcode') postcode: string) {
     return this.carbonIntensityService.getLiveGenMixByPostcode(postcode)
