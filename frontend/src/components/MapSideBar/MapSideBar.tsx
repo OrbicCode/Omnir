@@ -35,7 +35,7 @@ export default function MapSideBar() {
 
   return (
     <aside className={styles.container}>
-      <h2>{selectedRegion?.shortname}</h2>
+      <h2>{selectedRegion?.shortname || "Select a Region"}</h2>
       <Pie data={pieChartData} options={options} />
     </aside>
   );
