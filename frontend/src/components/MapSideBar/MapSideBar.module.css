@@ -16,5 +16,25 @@
 .container h2 {
   font-size: 1.5em;
   text-align: center;
-  min-height: 75px;
+  min-height: 65px;
+}
+
+.infoBlock {
+  width: 100%;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 0.5em;
+}
+
+.infoRow p {
+  margin: 0;
+}
+
+.infoRow p:first-child {
+  font-weight: bold;
 }

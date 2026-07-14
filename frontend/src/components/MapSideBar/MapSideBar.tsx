@@ -27,16 +27,36 @@ export default function MapSideBar() {
   const options = {
     responsive: true,
     plugins: {
+      title: {
+        display: true,
+        text: "Generation Mix",
+        color: "black",
+        font: {
+          size: 18,
+        },
+      },
       legend: {
         position: "right" as const,
       },
     },
   };
 
+  console.log("selectedRegion", selectedRegion);
+
   return (
     <aside className={styles.container}>
       <h2>{selectedRegion?.shortname || "Select a Region"}</h2>
       <Pie data={pieChartData} options={options} />
+      <div className={styles.infoBlock}>
+        <div className={styles.infoRow}>
+          <p>Forecast:</p>
+          <p>{selectedRegion?.intensity.forecast}</p>
+        </div>
+        <div className={styles.infoRow}>
+          <p>Index:</p>
+          <p>{selectedRegion?.intensity.index}</p>
+        </div>
+      </div>
     </aside>
   );
 }
